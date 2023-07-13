@@ -1,4 +1,4 @@
-# GitAna: Github Analytics
+# GitAna: Github Analytics 
 
 ## Project setup
 
