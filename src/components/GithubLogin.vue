@@ -1,28 +1,12 @@
 <template>
   <div>
-    <v-btn 
-    v-if="!isLoggedIn"
-    @click="handleSignIn"
-    color="primary"
-    variant="flat"
-    rounded
-    >
-      <v-icon left>
-        {{ ghIcon }}
-        icon="mdi-speedometer"
-              size="large"
-              start
-      </v-icon>
-      
-      Iniciar Sesión
-    </v-btn>
     <v-btn
-    v-if="isLoggedIn"
-    @click="handleSignOut"
+    @click=isLoggedIn?handleSignOut():handleSignIn()
+    prepend-icon="mdi-github"
     color="primary"
     variant="flat"
     rounded>
-      Cerrar Sesión
+      {{isLoggedIn?"Cerrar Sesión":"Iniciar Sesión"}}
     </v-btn>
   </div>
 </template>
