@@ -31,7 +31,7 @@ const routes = [
       {
         path: "repodescarga",
         name: "RepoDescarga",
-        component: () => import('@/views/repoDescarga.vue'),
+        component: () => import('@/views/RepoDescarga.vue'),
         meta: {
           requiresAuth: true,
         },
