@@ -8,15 +8,15 @@
 import App from './App.vue'
 
 // Composables
-import { createApp, provide, h} from 'vue'
-
-//ApolloClient
-import { DefaultApolloClient } from '@vue/apollo-composable'
-import apolloClient from '@/apollo/index'
+import { createApp, h } from 'vue'
 
 // Plugins
 import { registerPlugins } from '@/plugins'
 
+//ApolloClient
+import apolloClient from '@/apollo'
+//import { DefaultApolloClient } from '@vue/apollo-composable'
+import { provideApolloClient } from "@vue/apollo-composable";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 
@@ -38,14 +38,11 @@ const firebaseConfig = {
 initializeApp(firebaseConfig);
 
 const app = createApp({
-    setup () {
-        provide(DefaultApolloClient, apolloClient)
+    setup() {
+        provideApolloClient(apolloClient);
     },
-
-    render: () => h(App),
-})
-
-//const app = createApp(App)
+    render: () => h(App)
+});
 
 registerPlugins(app)
 

@@ -1,18 +1,32 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
+import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client/core";
 
-// HTTP connection to the API
-const httpLink = createHttpLink({
-    // You should use an absolute URL here
-    uri: 'https://api.github.com/graphql',
-})
+function getHeaders() {
+    const token = localStorage.getItem("tokenId");
+    const headers = { 
+        "Authorization": token? `Bearer ${token}` : null, 
+        "Content-Type": 'application/json' 
+    };
+    return headers;
+}
 
-// Cache implementation
-const cache = new InMemoryCache()
+// Create an http link:
+const httpLink = new HttpLink({
+    uri: `https://api.github.com/graphql`,
+    fetch: (uri, options) => {
+        options.headers = getHeaders();
+        return fetch(uri, options);
+    },
+});
 
 // Create the apollo client
-const apolloClient = new ApolloClient({
-    link: httpLink,
-    cache,
-})
+//const apolloClient 
 
-export default apolloClient
+export default new ApolloClient({
+    cache: new InMemoryCache(),
+    link: httpLink,
+    defaultOptions: {
+        query: {
+            errorPolicy: "all",
+        },
+    },
+});

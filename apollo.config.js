@@ -1,9 +1,9 @@
 module.exports = {
     client: {
     service: {
-        name: "my-app",
+        name: "github",
       // URL to the GraphQL API
-        url: "http://localhost:3000/graphql",
+        url: "https://api.github.com/graphql",
     },
     // Files processed by the extension
     includes: ["src/**/*.vue", "src/**/*.js"],
