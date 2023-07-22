@@ -45,7 +45,7 @@
       // IdP data available using getAdditionalUserInfo(result)
       localStorage.setItem("tokenId", token);
       localStorage.setItem("user", user);
-      router.push("acerca");
+      router.push("home");
     }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;

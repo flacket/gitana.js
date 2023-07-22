@@ -9,6 +9,11 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'Login',
+        component: () => import('@/views/LoginPage.vue'),
+      },
+      {
+        path: 'home',
         name: 'Home',
         component: () => import('@/views/HomePage.vue'),
       },
@@ -57,7 +62,7 @@ router.beforeEach((to, from, next) => {
     if (getAuth().currentUser) {
       next();
     } else {
-      alert("No tienes acceso");
+      console.log("No tienes acceso");
       next("/");
     }
   } else {

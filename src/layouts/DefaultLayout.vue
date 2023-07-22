@@ -13,10 +13,8 @@
       </template>
 
       <template v-slot:append>
-        <github-login v-if="isLoggedIn" />
-        <!--<v-btn icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>-->
+        <github-login />
+        <!--<v-btn icon><v-icon>mdi-dots-vertical</v-icon></v-btn>-->
       </template>
       
     </v-app-bar>
