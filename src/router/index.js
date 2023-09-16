@@ -57,12 +57,11 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (getAuth().currentUser) {
       next();
     } else {
-      console.log("No tienes acceso");
       next("/");
     }
   } else {
