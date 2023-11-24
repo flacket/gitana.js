@@ -1,50 +1,50 @@
 // Utilities
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
 import { getAuth, signInWithPopup, GithubAuthProvider, signOut } from "firebase/auth";
+//import { useRouter } from 'vue-router';
 
 const provider = new GithubAuthProvider();
-const auth = getAuth();
+//const auth = getAuth();
+//const router = useRouter();
 
-export const useAuthStore = defineStore("auth", {
-  state: () => ({
-    user: {
-      isloggedIn: false,
-      data: null,
-    },
-    token: null
-  }),
+export const useAuthStore = defineStore('authStore', () => {
+  const user = ref({});
+  const isLogged = ref(false);
+  const token = ref('');
 
-  getters: {
-    useAppStore: (state) => state.user,
-    isLoggedIn: (state) => { return state.user.isloggedIn }
-  },
+  const getUser = computed(() => user);
+  const getToken = computed(() => token);
+  const isLoggedIn = computed(() => isLogged);
 
-  actions: {
-    async logIn() {
-      await signInWithPopup(auth, provider).then((result) => {
-        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
-        const credential = GithubAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const userData = {
-          name: result.user.displayName,
-          email: result.user.email,
-          photoURL: result.user.photoURL
-        }
-        this.user.isloggedIn = true;
-        this.user.data = userData;
-        this.token = token
-      })
-      .catch((error) => {
-        console.log('Error authStore:', error)
-        throw new Error('Error al intentar Autenticar')
-      })
-    },
+  function logIn() {
+    const auth = getAuth();
+    signInWithPopup(auth, provider).then((result) => {
+      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+      const credential = GithubAuthProvider.credentialFromResult(result);
+      this.token.value = credential.accessToken;
+      // The signed-in user info.
+      /*this.user = {
+        name: result.user.displayName,
+        email: result.user.email,
+        photoURL: result.user.photoURL
+      };*/
+    })
+    .catch((error) => {
+      console.log('Error al intentar autenticar:', error.message);
+    })
+  }
 
-    async logOut() {
-      await signOut(auth);
-      this.user.isloggedIn = false;
-      this.user.data = null;
-    },
-  },
+  function logOut() {
+    const auth = getAuth()
+    signOut(auth)
+    .then(() => {
+      alert("sesion finalizada")
+    })
+    .catch((error) => {
+      alert('Ocurrió un error al intentar cerrar sesion: ', error.message);
+    });
+  }
+
+  return { user, token, getUser, getToken, isLoggedIn, logIn, logOut }
 });

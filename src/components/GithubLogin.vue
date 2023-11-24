@@ -1,40 +1,38 @@
 <template>
   <div>
     <v-btn
-    @click=isLoggedIn?handleSignOut():handleSignIn()
+    v-if="isLoggedIn"
+    @click=authStore.logIn
     prepend-icon="mdi-github"
     color="primary"
     variant="flat"
     rounded>
-      {{isLoggedIn?"Cerrar Sesión":"Iniciar Sesión"}}
+      Iniciar Sesión
+    </v-btn>
+    <v-btn
+    @click=authStore.logOut
+    prepend-icon="mdi-github"
+    color="primary"
+    variant="flat"
+    rounded>
+      Cerrar Sesión
     </v-btn>
   </div>
 </template>
 
 <script setup>
-  import { computed } from "vue";
-  import { useRouter } from "vue-router";
   import { useAuthStore } from "@/store/auth";
-
-  const store = useAuthStore();
-  const router = useRouter();
-  //const provider = new GithubAuthProvider();
+  const authStore = useAuthStore();
+  import { computed } from "vue";
   const isLoggedIn = computed(function() {
-    return store.isLoggedIn
+    return authStore.isLoggedIn
   });
 
-  const handleSignIn = async() => {
-    try{
-      await store.logIn();
-      if (isLoggedIn.value) router.push('home')
-    } catch (error) {
-      alert(`Ocurrio un error: ${error.message}`);
-    }
+  /*const handleSignIn = () => {
+    authStore.logIn();
   };
 
   const handleSignOut = () => {
-    store.logOut().then(() => {
-      router.go('/');
-    });
-  };
+    authStore.logOut();
+  };*/
 </script>

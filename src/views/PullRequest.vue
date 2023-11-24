@@ -15,10 +15,11 @@
 <script setup>
   import { ref } from 'vue';
   import BarChart from '@/components/BarChart'
+  import { fetchTest } from '@/graphql';
 
-  import { fetchTest } from '@/graphql/index';
   //import { GET_USER } from '@/graphql/queries';
   let user = ref('')
+  fetchTest
   fetchTest().then( res => user.value = res)
   //
   //let res = await fetchTest()

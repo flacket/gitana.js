@@ -1,6 +1,6 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
-import {getAuth} from "firebase/auth"
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const routes = [
   {
@@ -57,12 +57,26 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
-router.beforeEach((to, _, next) => {
+
+const getCurrentUser = () => {
+  return new Promise(( resolve, reject ) =>{
+    const removeListener = onAuthStateChanged(
+      getAuth(),
+      (user) => {
+        removeListener();
+        resolve(user)
+      },
+      reject
+    )
+  })
+}
+
+router.beforeEach( async (to, _, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (getAuth().currentUser) {
+    if (await getCurrentUser()) {
       next();
     } else {
-      next("/");
+      next('/');
     }
   } else {
     next();

@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-app-bar color="info">
-      
+
       <v-app-bar-title>
         <span class="font-weight-bold">GIT</span>
         <span class="font-weight-light">ANA</span>
@@ -16,7 +16,7 @@
         <github-login />
         <!--<v-btn icon><v-icon>mdi-dots-vertical</v-icon></v-btn>-->
       </template>
-      
+
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" v-if="isLoggedIn">
@@ -35,26 +35,16 @@
 
 <script setup>
   import GithubLogin from '@/components/GithubLogin.vue'
-  import { onMounted, ref, watch } from 'vue'
-  import { getAuth, onAuthStateChanged } from 'firebase/auth'
-  
-  const isLoggedIn = ref(false);
-  let auth;
-  
-  onMounted(() => {
-    auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        isLoggedIn.value = true;
-      } else {
-        isLoggedIn.value = false;
-      }
-    });
+  import { useAuthStore } from '@/store/auth';
+  import { computed, ref, watch } from 'vue'
+
+  const authStore = useAuthStore();
+  const isLoggedIn = computed(function() {
+    return authStore.isLoggedIn
   });
 
   const drawer = ref(false)
   const group = ref(null)
-
   watch(group, () => {
     drawer.value = false
   })
