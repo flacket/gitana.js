@@ -1,6 +1,6 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
-import {getAuth} from "firebase/auth"
+import { auth } from '@/firebase'
 
 const routes = [
   {
@@ -57,13 +57,13 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
-router.beforeEach((to, from, next) => {
+
+router.beforeEach( async (to, _, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (getAuth().currentUser) {
+    if (auth.currentUser) {
       next();
     } else {
-      console.log("No tienes acceso");
-      next("/");
+      next('/');
     }
   } else {
     next();

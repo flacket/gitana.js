@@ -11,7 +11,6 @@
 
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <github-login />
         </v-col>
       </v-row>
     </v-responsive>
@@ -19,5 +18,4 @@
 </template>
 
 <script setup>
-  import GithubLogin from '@/components/GithubLogin.vue'
 </script>

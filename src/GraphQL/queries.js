@@ -1,15 +1,4 @@
-import gql from 'graphql-tag'
-
-export const getUser = gql`
-  query getUser {
-    user(id: 2) {
-      id
-      name
-    }
-  }
-`;
-
-export const GET_USER = gql`
+export const GET_USER = `
   query($login: String!) {
     user(login: $login) {
       repositories(first: 100) {
@@ -26,7 +15,7 @@ export const GET_USER = gql`
   }
 `;
 
-export const GET_COMMITCOMMENTS = gql`
+export const GET_COMMITCOMMENTS = `
   query getCommitComments($owner: String!, $name: String!) {
     repository(owner: $owner, name: $name) {
       commitComments(first: 50) {
@@ -52,10 +41,10 @@ export const GET_COMMITCOMMENTS = gql`
   }
 `;
 
-export const GET_REPO = gql`
+export const GET_REPO = `
   query getRepo($owner: String!, $name: String!, $number: Int!) {
     repository(owner: $owner, name: $name) {
-      pullRequest(number: $number) { 
+      pullRequest(number: $number) {
         id
         number
         title
@@ -85,7 +74,6 @@ export const GET_REPO = gql`
           nodes {
             id
             login
-            ################################
             location
             following(first: 100) {
               totalCount
@@ -99,7 +87,6 @@ export const GET_REPO = gql`
                 id
               }
             }
-            ################################
           }
         }
         comments(first: 100) {
@@ -154,7 +141,7 @@ export const GET_REPO = gql`
   }
 `;
 
-export const GET_REPOS = gql`
+export const GET_REPOS = `
   query getRepos(
     $owner: String!
     $name: String!
@@ -260,7 +247,7 @@ export const GET_REPOS = gql`
   }
 `;
 
-export const DOWN_REPOS = gql`
+export const DOWN_REPOS = `
   query downRepos(
     $owner: String!
     $name: String!
@@ -366,16 +353,16 @@ export const DOWN_REPOS = gql`
   }
 `;
 
-/*{"owner": "twitter", 
-"name": "serial", 
+/*{"owner": "twitter",
+"name": "serial",
 "afterCursor": null,
 "comments": 1,
 "commentsReactions": 1,
-"rvThreads": 1, 
+"rvThreads": 1,
 "rvThreadsComments": 1
 }*/
 
-export const USER = gql`
+export const USER = `
   query userstats($owner: String!) {
     user(login: $owner) {
       login
@@ -391,7 +378,7 @@ export const USER = gql`
   }
 `;
 
-export const USER_STATS = gql`
+export const USER_STATS = `
   query userstats($owner: String!) {
     user(login: $owner) {
       login
@@ -415,7 +402,7 @@ export const USER_STATS = gql`
   }
 `;
 
-export const REPOSITORY_PRS = gql`
+export const REPOSITORY_PRS = `
   query getPRcant($name: String!, $owner: String!) {
     repository(name: $name, owner: $owner) {
       pullRequests(first: 1) {
@@ -425,7 +412,7 @@ export const REPOSITORY_PRS = gql`
   }
 `;
 
-export const ORG_MEMBERS = gql`
+export const ORG_MEMBERS = `
 query getOrgMembers($owner: String!){
   organization(login: $owner) {
     membersWithRole(first: 100) {
@@ -440,7 +427,7 @@ query getOrgMembers($owner: String!){
 }
 `;
 
-export const RATE_LIMIT = gql`
+export const RATE_LIMIT = `
   query rateLimit {
     rateLimit {
       limit

@@ -1,16 +1,27 @@
 <template>
     <h1>Pull Request</h1>
     <BarChart />
+    <Suspense>
+      <p>{{ user }}</p>
 
-    <h2>Hello {{ user }}</h2>
-    <h2>Your ID is: {{ user?.login ?? "Nose" }}</h2>
+      <!-- loading state -->
+      <template #fallback>
+            Loading...
+      </template>
+    </Suspense>
+
 </template>
 
 <script setup>
+  import { ref } from 'vue';
   import BarChart from '@/components/BarChart'
+  import { fetchTest } from '@/graphql';
 
-  import { useQuery } from "@vue/apollo-composable";
-  import { USER } from '@/apollo/queries';
-
-  const { result: user } = useQuery(USER)
+  //import { GET_USER } from '@/graphql/queries';
+  let user = ref('')
+  fetchTest
+  fetchTest().then( res => user.value = res)
+  //
+  //let res = await fetchTest()
+  //posts = res.allEpisode
 </script>
