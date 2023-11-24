@@ -1,28 +1,31 @@
 // Utilities
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { getAuth, signInWithPopup, GithubAuthProvider, signOut } from "firebase/auth";
-//import { useRouter } from 'vue-router';
+import { auth } from '@/firebase'
+import { signInWithPopup, GithubAuthProvider, signOut } from "firebase/auth";
+import router from '@/router'
 
 const provider = new GithubAuthProvider();
-//const auth = getAuth();
-//const router = useRouter();
 
 export const useAuthStore = defineStore('authStore', () => {
-  const user = ref({});
-  const isLogged = ref(false);
+  const user = ref(null);
   const token = ref('');
 
   const getUser = computed(() => user);
   const getToken = computed(() => token);
-  const isLoggedIn = computed(() => isLogged);
+  const isLoggedIn = computed(() => {
+    if(user.value === null) return false
+    else return true
+  });
 
   function logIn() {
-    const auth = getAuth();
     signInWithPopup(auth, provider).then((result) => {
       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
       const credential = GithubAuthProvider.credentialFromResult(result);
-      this.token.value = credential.accessToken;
+      console.log("credencial: ", credential)
+      token.value = credential.accessToken;
+      user.value = result.user;
+      router.push('home');
       // The signed-in user info.
       /*this.user = {
         name: result.user.displayName,
@@ -35,15 +38,10 @@ export const useAuthStore = defineStore('authStore', () => {
     })
   }
 
-  function logOut() {
-    const auth = getAuth()
-    signOut(auth)
-    .then(() => {
-      alert("sesion finalizada")
-    })
-    .catch((error) => {
-      alert('Ocurrió un error al intentar cerrar sesion: ', error.message);
-    });
+  async function logOut() {
+    await signOut(auth);
+    user.value = null;
+    router.replace('/');
   }
 
   return { user, token, getUser, getToken, isLoggedIn, logIn, logOut }

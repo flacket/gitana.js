@@ -8,18 +8,25 @@
         <span class="text-body-2 font-weight-light"> ANALÍTICAS DE GITHUB</span>
       </v-app-bar-title>
 
-      <template v-slot:prepend v-if="isLoggedIn">
+      <template v-slot:prepend v-if="authStore.isLoggedIn">
         <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </template>
 
       <template v-slot:append>
-        <github-login />
+        <v-btn
+          @click=btnClick
+          prepend-icon="mdi-github"
+          color="primary"
+          variant="flat"
+          rounded>
+            {{ btnText }}
+        </v-btn>
         <!--<v-btn icon><v-icon>mdi-dots-vertical</v-icon></v-btn>-->
       </template>
 
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" v-if="isLoggedIn">
+    <v-navigation-drawer v-model="drawer" v-if="authStore.isLoggedIn">
       <v-list color="primary">
         <v-list-item prepend-icon="mdi-merge" title="Pull Request" to="pullrequest"></v-list-item>
         <v-list-item prepend-icon="mdi-source-repository" title="Repositorio" to="repositorio"></v-list-item>
@@ -34,13 +41,16 @@
 </template>
 
 <script setup>
-  import GithubLogin from '@/components/GithubLogin.vue'
-  import { useAuthStore } from '@/store/auth';
-  import { computed, ref, watch } from 'vue'
+  import { useAuthStore } from '@/store/auth'
+  import { ref, watch, computed } from 'vue'
 
   const authStore = useAuthStore();
-  const isLoggedIn = computed(function() {
-    return authStore.isLoggedIn
+
+  const btnClick = computed(function() {
+    return authStore.isLoggedIn? authStore.logOut : authStore.logIn
+  });
+  const btnText = computed(function() {
+    return authStore.isLoggedIn? 'Cerrar Sesión':'Iniciar Sesión'
   });
 
   const drawer = ref(false)

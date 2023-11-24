@@ -13,14 +13,13 @@ const selectedQuery = `query($login: String!) {
     }
   }
 }`
-const token = authStore.token;
 
 export const fetchTest = () => {
   return fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${authStore.getToken}`
     },
     body: JSON.stringify({
       query: selectedQuery,

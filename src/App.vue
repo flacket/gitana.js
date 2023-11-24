@@ -3,21 +3,15 @@
 </template>
 
 <script setup>
-import { useAuthStore } from './store/auth';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-
-const authStore = useAuthStore();
-const auth = getAuth();
+/*import { onAuthStateChanged } from "firebase/auth";
+import { auth } from '@/firebase';
 
 onAuthStateChanged(auth, (user) => {
   if(user) {
     console.log('cambio de authState: true')
-    authStore.isLogged = true;
-    authStore.user.value = user;
+    console.log(user)
   } else {
     console.log('cambio de authState: false')
-    authStore.isLogged = false;
-    authStore.user.value = {};
   }
-});
+});*/
 </script>
