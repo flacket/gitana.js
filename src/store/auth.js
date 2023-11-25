@@ -22,7 +22,6 @@ export const useAuthStore = defineStore('authStore', () => {
     signInWithPopup(auth, provider).then((result) => {
       // This gives you a GitHub Access Token. You can use it to access the GitHub API.
       const credential = GithubAuthProvider.credentialFromResult(result);
-      console.log("credencial: ", credential)
       token.value = credential.accessToken;
       user.value = result.user;
       router.push('home');

@@ -1,5 +1,7 @@
 <template>
-  <router-view />
+  <v-container fluid class="ma-2">
+    <router-view />
+  </v-container>
 </template>
 
 <script setup>
