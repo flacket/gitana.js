@@ -13,7 +13,12 @@
   <div v-if="show">
     <h1 class="text-h6 text-grey">
       {{ repository.pullRequest.title }}
-      <a class="text-h6 text-decoration-none" :href="repository.pullRequest.url">
+      <a
+        class="text-h6 text-decoration-none"
+        :href="repository.pullRequest.url"
+        target="_blank"
+        rel="noreferrer"
+      >
         #{{ repository.pullRequest.number }}
       </a>
     </h1>
@@ -30,7 +35,7 @@
               repository.pullRequest.deletions
             }}
           </p>
-          <h4>Estado: </h4>
+          <h4>Estado:</h4>
 
           <v-chip variant="flat">
             {{ repository.pullRequest.state }}
