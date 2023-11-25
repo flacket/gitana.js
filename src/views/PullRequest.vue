@@ -1,27 +1,21 @@
 <template>
-    <h1>Pull Request</h1>
-    <BarChart />
-    <Suspense>
-      <p>{{ user }}</p>
+  <h1>Pull Request</h1>
+  <BarChart />
+  <Suspense>
+    <p>{{ user }}</p>
 
-      <!-- loading state -->
-      <template #fallback>
-            Loading...
-      </template>
-    </Suspense>
-
+    <!-- loading state -->
+    <template #fallback> Loading... </template>
+  </Suspense>
 </template>
 
 <script setup>
-  import { ref } from 'vue';
-  import BarChart from '@/components/BarChart'
-  import { fetchTest } from '@/graphql';
+import { ref } from "vue";
+import BarChart from "@/components/BarChart";
 
-  //import { GET_USER } from '@/graphql/queries';
-  let user = ref('')
-  fetchTest
-  fetchTest().then( res => user.value = res)
-  //
-  //let res = await fetchTest()
-  //posts = res.allEpisode
+import { fetchQuery } from "@/GraphQL";
+import { GET_USER } from "@/GraphQL/queries";
+
+const user = ref("");
+fetchQuery(GET_USER, { login: "flacket" }).then((res) => (user.value = res));
 </script>
