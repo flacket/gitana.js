@@ -7,7 +7,7 @@ export const fetchQuery = (query, variables) => {
     method: "POST",
     headers: {
       'Content-Type': "application/json",
-      'Authorization': `Bearer ${authStore.getToken.value}`,
+      'Authorization': `Bearer ${authStore.getToken}`,
     },
     body: JSON.stringify({
       query: query,

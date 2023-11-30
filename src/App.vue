@@ -5,15 +5,12 @@
 </template>
 
 <script setup>
-/*import { onAuthStateChanged } from "firebase/auth";
-import { auth } from '@/firebase';
+import { onMounted } from 'vue';
+import { useAuthStore } from './store/auth';
 
-onAuthStateChanged(auth, (user) => {
-  if(user) {
-    console.log('cambio de authState: true')
-    console.log(user)
-  } else {
-    console.log('cambio de authState: false')
-  }
-});*/
+const authStore = useAuthStore();
+
+onMounted(() => {
+  authStore.init();
+});
 </script>
