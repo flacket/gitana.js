@@ -10,16 +10,16 @@
     color="primary"
   ></v-progress-linear>
   <v-divider />
-  <div v-if="show">
+  <div v-if="prStore.pullRequest">
     <h1 class="text-h6 text-grey">
-      {{ repository.pullRequest.title }}
+      {{ prStore.pullRequest.title }}
       <a
         class="text-h6 text-decoration-none"
-        :href="repository.pullRequest.url"
+        :href="prStore.pullRequest.url"
         target="_blank"
         rel="noreferrer"
       >
-        #{{ repository.pullRequest.number }}
+        #{{ prStore.pullRequest.number }}
       </a>
     </h1>
     <h4 class="mt-4">Métricas Grupales del Pull Request</h4>
@@ -27,18 +27,15 @@
       <v-row>
         <v-col sm="12" md="3">
           <h4>Participantes:</h4>
-          <p>{{ repository.pullRequest.participants.totalCount }}</p>
+          <p>{{ prStore.pullRequest.participants.totalCount }}</p>
           <h4>Tamaño PR (loc):</h4>
           <p>
-            {{
-              repository.pullRequest.additions +
-              repository.pullRequest.deletions
-            }}
+            {{ prStore.pullRequest.additions + prStore.pullRequest.deletions }}
           </p>
           <h4>Estado:</h4>
 
           <v-chip variant="flat">
-            {{ repository.pullRequest.state }}
+            {{ prStore.pullRequest.state }}
           </v-chip>
         </v-col>
       </v-row>
@@ -52,22 +49,21 @@ import { ref } from "vue";
 import SearchBar from "@/components/SearchBar.vue";
 
 import { fetchQuery } from "@/GraphQL";
-import { GET_REPO } from "@/GraphQL/queries";
+import { GET_REPO } from "@/GraphQL/queries.js";
+import { usePullRequestStore } from "@/store/pullRequest.js";
 
-const repository = ref("");
+const prStore = usePullRequestStore();
+const resultQuery = ref({});
 const loading = ref(false);
-const show = ref(false);
 
 async function searchPR(search) {
   loading.value = true;
-  show.value = false;
-  repository.value = await fetchQuery(GET_REPO, {
+  resultQuery.value = await fetchQuery(GET_REPO, {
     owner: search.owner,
     name: search.name,
     number: parseInt(search.number),
   });
-  repository.value = repository.value.repository;
-  show.value = true;
+  prStore.setPR(resultQuery.value.repository.pullRequest);
   loading.value = false;
 }
 </script>
