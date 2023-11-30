@@ -1,14 +1,20 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue';
+import { ref, computed } from 'vue'
 
 export const usePullRequestStore = defineStore('pullRequest', () => {
-  const pullRequest = ref({});
+  const pullRequest = ref('');
 
   const getPR = computed(() => pullRequest.value)
+  const isLoaded = computed(() => {
+    console.log(pullRequest.value)
+    if(pullRequest.value)
+    return true
+    else return false
+  })
 
   function setPR(data) {
     pullRequest.value = data;
   }
 
-  return { pullRequest, getPR, setPR}
+  return { pullRequest, getPR, isLoaded, setPR}
 })

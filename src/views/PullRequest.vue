@@ -10,7 +10,7 @@
     color="primary"
   ></v-progress-linear>
   <v-divider />
-  <div v-if="prStore.pullRequest">
+  <div v-if="prStore.isLoaded">
     <h1 class="text-h6 text-grey">
       {{ prStore.pullRequest.title }}
       <a
@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
 //import BarChart from "@/components/BarChart";
 import SearchBar from "@/components/SearchBar.vue";
 
@@ -64,6 +64,7 @@ async function searchPR(search) {
     number: parseInt(search.number),
   });
   prStore.setPR(resultQuery.value.repository.pullRequest);
+  await nextTick()
   loading.value = false;
 }
 </script>
