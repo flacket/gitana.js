@@ -6,10 +6,7 @@ export const usePullRequestStore = defineStore('pullRequest', () => {
 
   const getPR = computed(() => pullRequest.value)
   const isLoaded = computed(() => {
-    console.log(pullRequest.value)
-    if(pullRequest.value)
-    return true
-    else return false
+    pullRequest.value? true : false;
   })
 
   function setPR(data) {

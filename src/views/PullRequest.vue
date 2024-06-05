@@ -34,7 +34,7 @@
           </p>
           <h4>Estado:</h4>
 
-          <v-chip variant="flat">
+          <v-chip variant="flat" :color="getColor(prStore.pullRequest.state)">
             {{ prStore.pullRequest.state }}
           </v-chip>
         </v-col>
@@ -66,5 +66,14 @@ async function searchPR(search) {
   prStore.setPR(resultQuery.value.repository.pullRequest);
   await nextTick()
   loading.value = false;
+}
+
+function getColor (estado) {
+  switch(estado) {
+    case "MERGED": return '#6f42c1'
+    case "CLOSED": return '#d73a49'
+    case "OPEN": return '#238636'
+    default: return '#999999'
+  }
 }
 </script>
